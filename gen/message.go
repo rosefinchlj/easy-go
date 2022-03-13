@@ -1,6 +1,7 @@
 package gen
 
 type ResultMsg struct {
+    Success bool
     Code    int
     Message string
     Data    interface{}
@@ -19,6 +20,9 @@ func GetResultMsg(errorCode ...interface{}) ResultMsg {
     for _, e := range errorCode {
         switch v := e.(type) {
         case Code:
+            if v == Ok {
+                resultMsg.Success = true
+            }
             resultMsg.Code = int(v)
             resultMsg.Message = v.Message()
         case string:
